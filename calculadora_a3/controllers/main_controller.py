@@ -61,13 +61,27 @@ class MainController:
         self.show_home()
     
     def create_navigation_bar(self):
-        """Cria a barra de navegação com botões pretos e botão de tema preto"""
+        """Cria a barra de navegação com cores diferentes para cada tema"""
         self.nav_frame = tk.Frame(self.main_frame, bg=self.colors['bg'])
         self.nav_frame.pack(fill=tk.X, pady=5)
         
         # Frame para centralizar os botões
         center_frame = tk.Frame(self.nav_frame, bg=self.colors['bg'])
         center_frame.pack(expand=True)
+        
+        # Determinar cores com base no tema atual
+        tema_atual = self.theme_manager.current_theme
+        
+        if tema_atual == 'light':
+            # Cores para o MODO CLARO - Botão BRANCO com texto PRETO
+            cor_botao = '#ffffff'      # Branco
+            cor_texto = '#000000'      # Preto
+            cor_hover = '#e0e0e0'      # Cinza claro no hover
+        else:
+            # Cores para o MODO ESCURO - Botão PRETO com texto BRANCO
+            cor_botao = '#000000'       # Preto
+            cor_texto = '#ffffff'       # Branco
+            cor_hover = '#333333'       # Cinza escuro no hover
         
         # Lista de botões
         nav_buttons = [
@@ -79,36 +93,36 @@ class MainController:
             ("ℹ️ Sobre", self.show_about),
         ]
         
-        # Criar botões de navegação (todos pretos)
+        # Criar botões de navegação
         for text, command in nav_buttons:
             btn = tk.Button(
                 center_frame,
                 text=text,
                 command=command,
                 font=('Arial', 10, 'bold'),
-                bg='#000000',  # PRETO
-                fg='white',     # Texto branco
+                bg=cor_botao,
+                fg=cor_texto,
                 relief=tk.RAISED,
                 padx=12,
                 pady=6,
-                activebackground='#333333',
-                activeforeground='white'
+                activebackground=cor_hover,
+                activeforeground=cor_texto
             )
             btn.pack(side=tk.LEFT, padx=3)
         
-        # Botão de tema (TAMBÉM PRETO, igual aos outros)
+        # Botão de tema (também com cores diferentes)
         self.theme_button = tk.Button(
             center_frame,
             text=f"{THEME_ICONS['light']} Tema",
             command=self.toggle_theme,
             font=('Arial', 10, 'bold'),
-            bg='#000000',  # PRETO (igual aos outros)
-            fg='white',     # Texto branco
+            bg=cor_botao,
+            fg=cor_texto,
             relief=tk.RAISED,
             padx=12,
             pady=6,
-            activebackground='#333333',
-            activeforeground='white'
+            activebackground=cor_hover,
+            activeforeground=cor_texto
         )
         self.theme_button.pack(side=tk.LEFT, padx=3)
     
@@ -118,8 +132,8 @@ class MainController:
         theme_name = self.theme_manager.get_theme_name()
         icon = THEME_ICONS['dark'] if theme_name == 'Escuro' else THEME_ICONS['light']
         
-        # Atualizar botão de tema (mantém preto)
-        self.theme_button.config(text=f"{icon} Tema", bg='#000000', fg='white')
+        # Atualizar botão de tema
+        self.theme_button.config(text=f"{icon} Tema")
         
         # Atualizar cores principais
         self.root.configure(bg=self.colors['bg'])
@@ -128,13 +142,35 @@ class MainController:
         self.nav_frame.configure(bg=self.colors['bg'])
         self.content_frame.configure(bg=self.colors['bg'])
         
-        # Manter TODOS os botões da navegação PRETOS
+        # Determinar novas cores para os botões baseado no tema
+        if theme_name == 'Claro':
+            # MODO CLARO - Botão BRANCO com texto PRETO
+            cor_botao = '#ffffff'      # Branco
+            cor_texto = '#000000'      # Preto
+            cor_hover = '#e0e0e0'      # Cinza claro
+            icon_tema = '☀️'
+        else:
+            # MODO ESCURO - Botão PRETO com texto BRANCO
+            cor_botao = '#000000'       # Preto
+            cor_texto = '#ffffff'       # Branco
+            cor_hover = '#333333'       # Cinza escuro
+            icon_tema = '🌙'
+        
+        # Atualizar todos os botões da navegação
         for widget in self.nav_frame.winfo_children():
             if isinstance(widget, tk.Frame):
                 widget.configure(bg=self.colors['bg'])
                 for btn in widget.winfo_children():
                     if isinstance(btn, tk.Button):
-                        btn.configure(bg='#000000', fg='white')
+                        btn.configure(
+                            bg=cor_botao, 
+                            fg=cor_texto,
+                            activebackground=cor_hover,
+                            activeforeground=cor_texto
+                        )
+        
+        # Atualizar botão de tema
+        self.theme_button.config(text=f"{icon_tema} Tema", bg=cor_botao, fg=cor_texto)
         
         # Atualizar cores das views
         self.update_views_colors()
