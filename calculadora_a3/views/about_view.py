@@ -21,6 +21,7 @@ class AboutView:
         info_frame = tk.Frame(self.frame, bg=self.colors['card_bg'], relief=tk.RAISED, bd=2)
         info_frame.pack(pady=20, padx=20, fill=tk.BOTH)
         
+        # Lista de informações (cada item é uma tupla com 2 elementos)
         informacoes = [
             ("📱 Calculadora Multifuncional", "Projeto desenvolvido com Python e Tkinter"),
             ("👥 Integrantes:", "Equipe de Desenvolvimento"),
@@ -42,9 +43,9 @@ class AboutView:
             ("   • Modo claro/escuro", ""),
             ("", ""),
             ("🎯 Objetivo:", ""),
-            ("   Desenvolver uma aplicação prática que"),
-            ("   ofereça múltiplas ferramentas de cálculo"),
-            ("   em uma interface amigável e intuitiva."),
+            ("   Desenvolver uma aplicação prática que", ""),
+            ("   ofereça múltiplas ferramentas de cálculo", ""),
+            ("   em uma interface amigável e intuitiva.", ""),
             ("", ""),
             ("🎨 Temas:", ""),
             ("   • Modo Claro 🌞", ""),
@@ -56,33 +57,38 @@ class AboutView:
         
         for texto, subtexto in informacoes:
             if subtexto:
-                tk.Label(
+                # Título com subtexto
+                label_titulo = tk.Label(
                     info_frame,
                     text=texto,
                     font=('Arial', 12, 'bold'),
                     bg=self.colors['card_bg'],
                     fg=self.colors['primary'],
                     justify=tk.LEFT
-                ).pack(anchor='w', padx=20, pady=(10, 0))
+                )
+                label_titulo.pack(anchor='w', padx=20, pady=(10, 0))
                 
                 if subtexto:
-                    tk.Label(
+                    label_sub = tk.Label(
                         info_frame,
                         text=subtexto,
                         font=('Arial', 10),
                         bg=self.colors['card_bg'],
                         fg=self.colors['primary'],
                         justify=tk.LEFT
-                    ).pack(anchor='w', padx=40, pady=(0, 5))
+                    )
+                    label_sub.pack(anchor='w', padx=40, pady=(0, 5))
             else:
-                tk.Label(
+                # Apenas texto normal
+                label_texto = tk.Label(
                     info_frame,
                     text=texto,
                     font=('Arial', 11),
                     bg=self.colors['card_bg'],
                     fg=self.colors['primary'],
                     justify=tk.LEFT
-                ).pack(anchor='w', padx=20, pady=2)
+                )
+                label_texto.pack(anchor='w', padx=20, pady=2)
     
     def show(self):
         self.frame.pack(fill=tk.BOTH, expand=True)
