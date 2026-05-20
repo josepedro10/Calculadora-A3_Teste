@@ -1,6 +1,6 @@
 import tkinter as tk
 from utils.constants import FUNCIONALIDADES
-from assests.style import create_title, create_card
+from assets.style import create_title, create_card
 
 class HomeView:
     def __init__(self, parent, controller, colors):

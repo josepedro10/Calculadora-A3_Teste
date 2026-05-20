@@ -1,5 +1,5 @@
 import tkinter as tk
-from assests.style import create_title
+from assets.style import create_title
 
 class AboutView:
     def __init__(self, parent, controller, colors):

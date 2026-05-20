@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from assests.style import create_title, create_button
+from assets.style import create_title, create_button
 from controllers.consumo_controller import ConsumoController
 
 class ConsumoView:

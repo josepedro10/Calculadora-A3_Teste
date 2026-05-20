@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from utils.constants import THEME_ICONS
 
 class StyleManager:
     def __init__(self, theme_manager):
@@ -66,9 +65,6 @@ class StyleManager:
 
 def create_button(parent, text, command, **kwargs):
     """Cria um botão padronizado"""
-    from utils.constants import THEMES
-    colors = THEMES['light']['colors']  # Será atualizado dinamicamente
-    
     default_kwargs = {
         'font': ('Arial', 10),
         'relief': tk.RAISED,
@@ -77,35 +73,26 @@ def create_button(parent, text, command, **kwargs):
     }
     default_kwargs.update(kwargs)
     
-    # Se não especificou bg e fg, usa as cores do tema
-    if 'bg' not in kwargs:
-        default_kwargs['bg'] = colors['button_bg']
-    if 'fg' not in kwargs:
-        default_kwargs['fg'] = colors['button_fg']
-    
     return tk.Button(parent, text=text, command=command, **default_kwargs)
 
 def create_title(parent, text, **kwargs):
     """Cria um título padronizado"""
-    from utils.constants import THEMES
-    colors = THEMES['light']['colors']
-    
     default_kwargs = {
         'font': ('Arial', 20, 'bold'),
-        'bg': colors['bg']
     }
     default_kwargs.update(kwargs)
-    
-    if 'fg' not in kwargs:
-        default_kwargs['fg'] = colors['primary']
     
     return tk.Label(parent, text=text, **default_kwargs)
 
 def create_card(parent, title, description, command, colors=None, **kwargs):
     """Cria um card padronizado"""
     if colors is None:
-        from utils.constants import THEMES
-        colors = THEMES['light']['colors']
+        colors = {
+            'card_bg': '#ffffff',
+            'secondary': '#3498db',
+            'primary': '#2c3e50',
+            'success': '#27ae60'
+        }
     
     card = tk.Frame(
         parent,

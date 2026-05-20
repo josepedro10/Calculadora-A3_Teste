@@ -1,4 +1,10 @@
 import tkinter as tk
+import sys
+import os
+
+# Adiciona o diretório pai ao path para imports absolutos
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from views.home_view import HomeView
 from views.calculator_view import CalculatorView
 from views.consumo_view import ConsumoView
@@ -7,7 +13,7 @@ from views.imc_view import IMCView
 from views.about_view import AboutView
 from utils.constants import WINDOW_CONFIG, THEME_ICONS
 from utils.theme import ThemeManager
-from assests.style import StyleManager, create_button
+from assets.style import StyleManager, create_button
 
 class MainController:
     def __init__(self):
