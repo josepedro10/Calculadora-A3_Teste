@@ -23,21 +23,21 @@ THEMES = {
     'dark': {
         'name': 'Escuro',
         'colors': {
-            'bg': '#1e1e1e',
-            'primary': '#ecf0f1',
-            'secondary': '#5dade2',
-            'success': '#2ecc71',
-            'danger': '#e74c3c',
-            'warning': '#f39c12',
-            'white': '#2c2c2c',
-            'black': '#ecf0f1',
-            'card_bg': '#2c2c2c',
-            'entry_bg': '#3c3c3c',
-            'entry_fg': '#ecf0f1',
-            'button_bg': '#5dade2',
-            'button_fg': '#ffffff',
-            'display_bg': '#2c2c2c',
-            'display_fg': '#ecf0f1'
+            'bg': '#1e1e1e',        # Fundo principal escuro
+            'primary': '#ecf0f1',    # Texto claro
+            'secondary': '#5dade2',  # Azul claro
+            'success': '#2ecc71',    # Verde
+            'danger': '#e74c3c',     # Vermelho
+            'warning': '#f39c12',    # Laranja
+            'white': '#2c2c2c',      # Cinza escuro para cards
+            'black': '#000000',      # Preto
+            'card_bg': '#2c2c2c',    # Fundo dos cards escuro
+            'entry_bg': '#3c3c3c',   # Fundo inputs escuro
+            'entry_fg': '#ecf0f1',   # Texto inputs claro
+            'button_bg': '#000000',  # Botões PRETOS no tema escuro
+            'button_fg': '#ffffff',  # Texto branco
+            'display_bg': '#2c2c2c', # Display calculadora escuro
+            'display_fg': '#ecf0f1'  # Texto display claro
         }
     }
 }

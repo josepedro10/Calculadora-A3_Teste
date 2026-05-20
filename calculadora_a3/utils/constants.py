@@ -7,11 +7,11 @@ WINDOW_CONFIG = {
 
 # Textos das funcionalidades
 FUNCIONALIDADES = [
-    ("Calculadora", "Operações matemáticas\nbásicas", "calculator"),
-    ("Consumo", "Calcule consumo\nde energia", "consumo"),
-    ("Média", "Calcule média de\nnotas ou valores", "media"),
-    ("IMC", "Calcule seu\nÍndice de Massa Corporal", "imc"),
-    ("Sobre", "Informações sobre\no desenvolvimento", "about")
+    ("Calculadora", "Operações matemáticas básicas", "calculator"),
+    ("Consumo", "Calcule consumo de energia", "consumo"),
+    ("Média", "Calcule média de notas ou valores", "media"),
+    ("IMC", "Calcule seu Índice de Massa Corporal", "imc"),
+    ("Sobre", "Informações sobre o desenvolvimento", "about")
 ]
 
 # Ícones do tema

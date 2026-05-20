@@ -13,7 +13,7 @@ from views.imc_view import IMCView
 from views.about_view import AboutView
 from utils.constants import WINDOW_CONFIG, THEME_ICONS
 from utils.theme import ThemeManager
-from assets.style import StyleManager, create_button
+from assets.style import StyleManager
 
 class MainController:
     def __init__(self):
@@ -29,71 +29,26 @@ class MainController:
         
         self.root.configure(bg=self.colors['bg'])
         
-        # === USAR grid para organizar melhor ===
-        self.root.grid_rowconfigure(0, weight=0)  # Header
-        self.root.grid_rowconfigure(1, weight=1)  # Conteúdo
-        self.root.grid_rowconfigure(2, weight=0)  # Footer
-        self.root.grid_columnconfigure(0, weight=1)
+        # Frame principal
+        self.main_frame = tk.Frame(self.root, bg=self.colors['bg'])
+        self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         
-        # === TOPO (Cabeçalho) ===
-        self.header_frame = tk.Frame(self.root, bg=self.colors['bg'], height=80)
-        self.header_frame.grid(row=0, column=0, sticky="ew", pady=(10, 0))
-        self.header_frame.grid_propagate(False)
-        
-        # Título (centralizado no topo)
+        # Título
         self.title_label = tk.Label(
-            self.header_frame,
+            self.main_frame,
             text="CALCULADORA",
             font=('Arial', 24, 'bold'),
             bg=self.colors['bg'],
             fg=self.colors['primary']
         )
-        self.title_label.pack(expand=True, fill=tk.BOTH)
+        self.title_label.pack(pady=10)
         
-        # === MEIO (Navegação + Conteúdo) ===
-        self.middle_frame = tk.Frame(self.root, bg=self.colors['bg'])
-        self.middle_frame.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
-        
-        # Configurar grid do middle_frame
-        self.middle_frame.grid_rowconfigure(0, weight=0)  # Navegação
-        self.middle_frame.grid_rowconfigure(1, weight=1)  # Conteúdo
-        self.middle_frame.grid_columnconfigure(0, weight=1)
-        
-        # Barra de navegação
+        # Barra de navegação (com botão de tema)
         self.create_navigation_bar()
         
         # Frame de conteúdo
-        self.content_frame = tk.Frame(self.middle_frame, bg=self.colors['bg'])
-        self.content_frame.grid(row=1, column=0, sticky="nsew", pady=10)
-        
-        # === RODAPÉ (Botão de tema) ===
-        self.footer_frame = tk.Frame(self.root, bg=self.colors['bg'], height=60)
-        self.footer_frame.grid(row=2, column=0, sticky="ew", pady=(0, 10))
-        self.footer_frame.grid_propagate(False)
-        
-        # Botão de tema no canto inferior esquerdo
-        self.theme_button = tk.Button(
-            self.footer_frame,
-            text=f"{THEME_ICONS['light']} Alternar Tema",
-            command=self.toggle_theme,
-            font=('Arial', 10, 'bold'),
-            bg=self.colors['secondary'],
-            fg='white',
-            relief=tk.RAISED,
-            padx=20,
-            pady=10
-        )
-        self.theme_button.pack(side=tk.LEFT, padx=20, pady=10)
-        
-        # Teste: Adicionar um label para verificar se o footer está visível
-        test_label = tk.Label(
-            self.footer_frame,
-            text="✓ Tema",
-            font=('Arial', 8),
-            bg=self.colors['bg'],
-            fg=self.colors['success']
-        )
-        test_label.pack(side=tk.RIGHT, padx=10, pady=10)
+        self.content_frame = tk.Frame(self.main_frame, bg=self.colors['bg'])
+        self.content_frame.pack(fill=tk.BOTH, expand=True, pady=10)
         
         # Dicionário de views
         self.views = {}
@@ -105,37 +60,98 @@ class MainController:
         # Mostrar home
         self.show_home()
     
+    def create_navigation_bar(self):
+        """Cria a barra de navegação com botões pretos e botão de tema preto"""
+        self.nav_frame = tk.Frame(self.main_frame, bg=self.colors['bg'])
+        self.nav_frame.pack(fill=tk.X, pady=5)
+        
+        # Frame para centralizar os botões
+        center_frame = tk.Frame(self.nav_frame, bg=self.colors['bg'])
+        center_frame.pack(expand=True)
+        
+        # Lista de botões
+        nav_buttons = [
+            ("🏠 Home", self.show_home),
+            ("📊 Calculadora", self.show_calculator),
+            ("⚡ Consumo", self.show_consumo),
+            ("📈 Média", self.show_media),
+            ("⚖️ IMC", self.show_imc),
+            ("ℹ️ Sobre", self.show_about),
+        ]
+        
+        # Criar botões de navegação (todos pretos)
+        for text, command in nav_buttons:
+            btn = tk.Button(
+                center_frame,
+                text=text,
+                command=command,
+                font=('Arial', 10, 'bold'),
+                bg='#000000',  # PRETO
+                fg='white',     # Texto branco
+                relief=tk.RAISED,
+                padx=12,
+                pady=6,
+                activebackground='#333333',
+                activeforeground='white'
+            )
+            btn.pack(side=tk.LEFT, padx=3)
+        
+        # Botão de tema (TAMBÉM PRETO, igual aos outros)
+        self.theme_button = tk.Button(
+            center_frame,
+            text=f"{THEME_ICONS['light']} Tema",
+            command=self.toggle_theme,
+            font=('Arial', 10, 'bold'),
+            bg='#000000',  # PRETO (igual aos outros)
+            fg='white',     # Texto branco
+            relief=tk.RAISED,
+            padx=12,
+            pady=6,
+            activebackground='#333333',
+            activeforeground='white'
+        )
+        self.theme_button.pack(side=tk.LEFT, padx=3)
+    
     def toggle_theme(self):
         """Alterna entre tema claro e escuro"""
-        print("Botão de tema clicado!")  # Debug para verificar se o botão funciona
-        
         self.colors = self.theme_manager.toggle_theme()
         theme_name = self.theme_manager.get_theme_name()
         icon = THEME_ICONS['dark'] if theme_name == 'Escuro' else THEME_ICONS['light']
         
-        # Atualizar botão de tema
-        self.theme_button.config(text=f"{icon} Alternar Tema")
+        # Atualizar botão de tema (mantém preto)
+        self.theme_button.config(text=f"{icon} Tema", bg='#000000', fg='white')
         
-        # Atualizar cores da interface
+        # Atualizar cores principais
         self.root.configure(bg=self.colors['bg'])
-        self.header_frame.configure(bg=self.colors['bg'])
+        self.main_frame.configure(bg=self.colors['bg'])
         self.title_label.configure(bg=self.colors['bg'], fg=self.colors['primary'])
-        self.middle_frame.configure(bg=self.colors['bg'])
+        self.nav_frame.configure(bg=self.colors['bg'])
         self.content_frame.configure(bg=self.colors['bg'])
-        self.footer_frame.configure(bg=self.colors['bg'])
         
-        # Atualizar barra de navegação
+        # Manter TODOS os botões da navegação PRETOS
         for widget in self.nav_frame.winfo_children():
             if isinstance(widget, tk.Frame):
+                widget.configure(bg=self.colors['bg'])
                 for btn in widget.winfo_children():
                     if isinstance(btn, tk.Button):
-                        btn.configure(bg=self.colors['button_bg'], fg=self.colors['button_fg'])
+                        btn.configure(bg='#000000', fg='white')
         
-        # Recriar views com novo tema
+        # Atualizar cores das views
+        self.update_views_colors()
+        
+        # Recriar views
         self.recreate_views()
+    
+    def update_views_colors(self):
+        """Atualiza as cores de todas as views"""
+        for view in self.views.values():
+            if hasattr(view, 'update_colors'):
+                view.update_colors()
     
     def recreate_views(self):
         """Recria todas as views com o novo tema"""
+        current = self.current_view
+        
         # Limpar views existentes
         for view in self.views.values():
             if hasattr(view, 'frame') and view.frame:
@@ -145,40 +161,8 @@ class MainController:
         self.init_views()
         
         # Mostrar a view atual
-        if self.current_view:
-            self.show_view(self.current_view)
-    
-    def create_navigation_bar(self):
-        """Cria a barra de navegação"""
-        self.nav_frame = tk.Frame(self.middle_frame, bg=self.colors['bg'])
-        self.nav_frame.grid(row=0, column=0, sticky="ew", pady=5)
-        
-        # Frame para centralizar os botões
-        center_frame = tk.Frame(self.nav_frame, bg=self.colors['bg'])
-        center_frame.pack(expand=True)
-        
-        nav_buttons = [
-            ("🏠 Home", self.show_home),
-            ("📊 Calculadora", self.show_calculator),
-            ("⚡ Consumo", self.show_consumo),
-            ("📈 Média", self.show_media),
-            ("⚖️ IMC", self.show_imc),
-            ("ℹ️ Sobre", self.show_about)
-        ]
-        
-        for text, command in nav_buttons:
-            btn = tk.Button(
-                center_frame,
-                text=text,
-                command=command,
-                font=('Arial', 10, 'bold'),
-                bg=self.colors['button_bg'],
-                fg=self.colors['button_fg'],
-                relief=tk.RAISED,
-                padx=12,
-                pady=6
-            )
-            btn.pack(side=tk.LEFT, padx=3)
+        if current:
+            self.show_view(current)
     
     def init_views(self):
         """Inicializa todas as views"""
