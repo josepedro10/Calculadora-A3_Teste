@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+Tela de Calculadora de Média da Aplicação Figma.
+Contém: Inputs para Valor 1, Valor 2 e Valor 3, botão de cálculo e display para a média resultante.
+"""
 import tkinter as tk
 from tkinter import messagebox
 from components.theme import ThemeConfig
@@ -26,6 +30,7 @@ class TelaMedia(tk.Frame):
         self.val2 = tk.StringVar()
         self.val3 = tk.StringVar()
 
+        # Campo Valor 1
         lbl1 = tk.Label(main_container, text="Valor 1", font=ThemeConfig.FONT_LABEL, bg=cores["bg_window"], fg=cores["text_main"], anchor="w")
         lbl1.pack(fill="x", pady=(5, 3))
         
@@ -44,6 +49,7 @@ class TelaMedia(tk.Frame):
         )
         entry1.pack(fill="x", ipady=8)
 
+        # Campo Valor 2
         lbl2 = tk.Label(main_container, text="Valor 2", font=ThemeConfig.FONT_LABEL, bg=cores["bg_window"], fg=cores["text_main"], anchor="w")
         lbl2.pack(fill="x", pady=(5, 3))
         
@@ -62,14 +68,12 @@ class TelaMedia(tk.Frame):
         )
         entry2.pack(fill="x", ipady=8)
 
+        # Campo Valor 3
         lbl3 = tk.Label(main_container, text="Valor 3", font=ThemeConfig.FONT_LABEL, bg=cores["bg_window"], fg=cores["text_main"], anchor="w")
         lbl3.pack(fill="x", pady=(5, 3))
         
-        input3_linha = tk.Frame(main_container, bg=cores["bg_window"])
-        input3_linha.pack(fill="x", pady=(0, 15))
-        
-        input3_frame = tk.Frame(input3_linha, bg="#000000", padx=1, pady=1)
-        input3_frame.pack(fill="left", expand=True)
+        input3_frame = tk.Frame(main_container, bg="#000000", padx=1, pady=1)
+        input3_frame.pack(fill="x", pady=(0, 15))
         
         entry3 = tk.Entry(
             input3_frame, 
@@ -82,26 +86,8 @@ class TelaMedia(tk.Frame):
             justify="center"
         )
         entry3.pack(fill="x", ipady=8)
-        
-        btn_lixeira_borda = tk.Frame(input3_linha, bg="#000000", padx=1, pady=1)
-        btn_lixeira_borda.pack(side="right", padx=(10, 0))
-        
-        btn_lixeira = tk.Button(
-            btn_lixeira_borda,
-            text=" 🗑 ",
-            font=("Helvetica", 11, "bold"),
-            bg="#C0392B",
-            fg="#FFFFFF",
-            activebackground="#E74C3C",
-            activeforeground="#FFFFFF",
-            bd=0,
-            padx=10,
-            pady=4,
-            cursor="hand2",
-            command=self.limpar_campos
-        )
-        btn_lixeira.pack()
 
+        # Botão Calcular
         btn_calc_borda = tk.Frame(main_container, bg="#000000", padx=1, pady=1)
         btn_calc_borda.pack(pady=(5, 15))
 
@@ -121,6 +107,7 @@ class TelaMedia(tk.Frame):
         )
         btn_calc.pack()
 
+        # Display do Resultado
         self.resultado_var = tk.StringVar(value="00.00")
         
         res_display_borda = tk.Frame(main_container, bg="#000000", padx=1, pady=1)
@@ -186,12 +173,6 @@ class TelaMedia(tk.Frame):
             command=lambda: self.controller.mostrar_tela("WELCOME")
         )
         btn_home.pack()
-
-    def limpar_campos(self):
-        self.val1.set("")
-        self.val2.set("")
-        self.val3.set("")
-        self.resultado_var.set("00.00")
 
     def calcular(self):
         try:
