@@ -15,7 +15,7 @@ class AppCalculadora(tk.Tk):
         super().__init__()
         
         self.title("Calculadora Multifuncional")
-        self.geometry("640x620")
+        self.geometry("1040x920")
         self.minsize(580, 600)
         
         self.tema_atual = "DARK"
@@ -26,8 +26,8 @@ class AppCalculadora(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.telas = {}
+        self.tela_atual = None
         
-        # Dicionário com as telas disponíveis
         self.telas_disponiveis = {
             "HOME": TelaHome,
             "CALCULADORA": TelaCalculadora,
@@ -40,7 +40,7 @@ class AppCalculadora(tk.Tk):
         self.mostrar_tela("HOME")
 
     def mostrar_tela(self, nome_tela):
-        print(f"Tentando abrir: {nome_tela}")  # Debug
+        print(f"Abrindo tela: {nome_tela}")
         
         if nome_tela not in self.telas:
             classe = self.telas_disponiveis[nome_tela]
@@ -48,20 +48,23 @@ class AppCalculadora(tk.Tk):
             self.telas[nome_tela] = frame
             frame.grid(row=0, column=0, sticky="nsew")
         
-        # Traz a tela para frente
+        self.tela_atual = nome_tela
         self.telas[nome_tela].tkraise()
 
     def alternar_tema(self):
+        # Troca o tema
         if self.tema_atual == "DARK":
             self.tema_atual = "LIGHT"
         else:
             self.tema_atual = "DARK"
         
-        # Recria todas as telas para aplicar o novo tema
-        for nome, tela in self.telas.items():
-            tela.destroy()
-        self.telas = {}
-        self.mostrar_tela("HOME")
+        # Atualiza a cor da janela principal
+        cores = ThemeConfig.pegar_paleta(self.tema_atual)
+        self.configure(bg=cores["bg_janela"])
+        
+        # Atualiza APENAS a tela que está visível no momento
+        if self.tela_atual and self.tela_atual in self.telas:
+            self.telas[self.tela_atual].atualizar_tema()
 
 
 if __name__ == "__main__":
