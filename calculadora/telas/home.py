@@ -21,8 +21,8 @@ class TelaHome(tk.Frame):
         cores = ThemeConfig.pegar_paleta(self.controller.tema_atual)
         self.configure(bg=cores["bg_janela"])
 
-        card_largura = 400
-        card_altura = 350
+        card_largura = 700
+        card_altura = 650
         
         self.moldura = tk.Frame(self, bg="#000000", padx=3, pady=3)
         self.moldura.place(relx=0.5, rely=0.5, anchor="center", width=card_largura, height=card_altura)
